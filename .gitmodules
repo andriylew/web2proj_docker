@@ -1,0 +1,3 @@
+[submodule "php/web/web2project"]
+	path = php/web/web2project
+	url = https://github.com/web2project/web2project

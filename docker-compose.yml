@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+    php-apache:
+        container_name: php-apache
+        build: php
+        links:
+            - "db:database"
+        depends_on:
+            - db
+        ports:
+            - 8000:80
+
+    db:
+        image: mariadb:10.4
+        container_name: db
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: ${sql_root_pass}
+            MARIADB_DATABASE: ${sql_db}
+            MARIADB_USER: ${sql_user}
+            MARIADB_PASSWORD: ${sql_pass}
+        ports:
+            - "9906:3306"
+        volumes:
+            - dbdata:/var/lib/mysql
+volumes:
+  dbdata: 

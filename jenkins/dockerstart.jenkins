@@ -1,0 +1,30 @@
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent { 
+        label 'agent1'
+        }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+    stages {
+        stage("set up db"){
+            steps{
+                sh "mkdir /var/lib/docker/volumes/dock2_dbdata"
+                sh "mkdir /var/lib/docker/volumes/dock2_dbdata/_data/"
+                sh "cp -R db_data/. /var/lib/docker/volumes/dock2_dbdata/_data/"
+                echo "======= db ready ======" 
+            }
+        }
+        stage("Run docker-compose") {
+            steps {
+                echo "================= start doker================"
+                sh "docker-compose up -d"
+                
+            }
+        }
+
+        }
+    
+}
